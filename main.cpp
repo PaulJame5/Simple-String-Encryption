@@ -1,44 +1,57 @@
-/// EZ Encryption v0.1 Program for encypting string messages
-/// By Paul O'Callaghan
-/// Began 19/8/19
-/// Updated 20/8/19
-/// Known Issues: Has a major security flaw where messages could be deciphered by process of eliminaton if someone was to look at the pattern at which the letters and words pront out 
-/// or brute force it to print out
-/// Known Bugs: NA as i can tell yet
+// EZ Encryption v0.2 Program for encypting string messages
+// By Paul O'Callaghan
+// Began 19/8/19
+// Updated 20/8/19
+// Known Issues: Fixed last issue of repeated patterns. Could still be brute forced if the pattern is known but less likely now.
+// Known Bugs: NA as i can tell yet
 
 #include <iostream>
 #include <string>
 #include <stdlib.h> 
 
-const int ENCRYPTION_STRENGTH = 3;
-int keySeed = 5;
+const int ENCRYPTION_STRENGTH = 15;
+int keySeed = 45;
 
 std::string charactersScrambled[128];
 
+// 0 = encrypt, 1 = decrypt
+const int OPTION = 1;
+
+// SET UP 
 std::string encryptMessage(std::string t_message, int t_unlockKey);
 std::string decryptMessage(std::string t_message, int t_unlockKey);
 void setUpCharacters(int t_seed);
 
 int main()
 {
-    // Set all characters in string set to null string
-    for(int index = 0; index < 128; index++)
-    {
-        charactersScrambled[index] = "";    
-    }
     
-  std::string message;
+    
+  std::string message = "Hello, world!";
+  // Hello, world! encryptted is equal to this with encryption strength set to 15 and keySeed at 45
+  std::string messageToDecrypt = "mkmatkv`mtlhhaqwwrqdrmv`x^kbal}ge{g}t^ydylis`rzvo`^lzaqnzmlyom^|sxwz|{yy~b{jhxsayc^zgaedbzjm|`azims`lxjpiwqkhcrwucg}}`gzcbnuadvyfof^gietctaklot}~p|rt{h^ijuipnnunmyn|cbedvrxul~cwjg^rskdwebkwjgp_n^";
   
-  // enter your message hello encrypted fyuuccjk_jk_vhq
-  getline (std::cin, message);
-  std::cout << "Your message before encryption: " << message << "!\n";
   
-  // After Encryption
-  //message = encryptMessage(message, keySeed);
-  //std::cout << "Your message after encryption: " << message << " !\n";
-  message = decryptMessage(message, keySeed);
-  // After Decryption
-  std::cout << "Your message after decryption: " << message << "!\n";
+  // Encryption
+  if(OPTION == 0)
+  {
+      //std::cout << "Enter your message for encryption: ";
+     // getline (std::cin, message);
+      message = encryptMessage(message, keySeed);
+      std::cout << "Your message after encryption: " << std::endl;
+      std::cout << message;
+  }
+  // Decrypt
+  else if(OPTION == 1)
+  {
+     // std::cout << "Enter your message for decryption: ";
+    //  getline (std::cin, message);
+      message = decryptMessage(messageToDecrypt, keySeed);
+      std::cout << "Your message after decryption: " << message << "!\n";
+  }
+  else
+  {
+      std::cout << "Invalid option";
+  }
 }
 
 
@@ -47,10 +60,11 @@ std::string encryptMessage(std::string t_message, int t_unlockKey)
     // create a tempory empty string that we will populate with the translated data
     std::string encryptedMessage = "";
     
-    setUpCharacters(t_unlockKey);
     
     for(unsigned int i = 0; i < t_message.size(); i++)
     {
+        setUpCharacters(t_unlockKey + i);
+        
         for(int j = 0; j < 128; j++)
         {
             char currentChar = j;
@@ -71,12 +85,12 @@ std::string decryptMessage(std::string t_message, int t_unlockKey)
     // create a tempory empty string that we will populate with the translated data
     std::string decryptedMessage = "";
     
-    setUpCharacters(t_unlockKey);
     
    unsigned int i = 0;
    
     while(i < t_message.size())
     {
+        setUpCharacters(t_unlockKey);
         std::string temp_msg = "";
         
         for(int j = 0; j < ENCRYPTION_STRENGTH; j++)
@@ -91,6 +105,7 @@ std::string decryptMessage(std::string t_message, int t_unlockKey)
             {
                 char charDec = j;
                 decryptedMessage += charDec;
+                t_unlockKey += 1;
                 break; // we break out of the loop as it's been found
             }
         }
@@ -102,6 +117,11 @@ std::string decryptMessage(std::string t_message, int t_unlockKey)
 
 void setUpCharacters(int t_seed)
 {
+    // Set all characters in string set to null string
+    for(int index = 0; index < 128; index++)
+    {
+        charactersScrambled[index] = "";    
+    }
     // initialise seed
     srand(t_seed);
     
