@@ -1,22 +1,22 @@
-/// EZ Encryption v0.2 Program for encypting string messages
+/// EZ Encryption v0.2.1 Program for encypting string messages
 /// By Paul O'Callaghan
 /// Began 19/8/19
-/// Updated 20/8/19
-/// Known Issues: Fixed last issue of repeated patterns. Could still be brute forced if the pattern is known but less likely now.
-/// Another issue is if we were to overflow the string the message would not produce the characters to get all of the message
-/// Known Bugs: NA as i can tell yet
+/// Updated 21/8/19
+/// Known Issues: Fixed last issue of memory for string. Could still be brute forced by setting up a loop and printing out results to a text file but it would prevent data being
+/// used easily by large companies providing messaging services or at least slow them down for a little while.
+/// Known Bugs: The characters currently used aren't using capitals for some reason will fix in later update problem is probably @ line 138
 
 #include <iostream>
 #include <string>
 #include <stdlib.h> 
 
-const int ENCRYPTION_STRENGTH = 15;
-int keySeed = 45;
+const int ENCRYPTION_STRENGTH = 50000;
+int keySeed = 4587483463;
 
 std::string charactersScrambled[128];
 
 // 0 = encrypt, 1 = decrypt
-const int OPTION = 1;
+const int OPTION = 0;
 
 // SET UP 
 std::string encryptMessage(std::string t_message, int t_unlockKey);
@@ -27,9 +27,9 @@ int main()
 {
     
     
-  std::string message = "Hello, world!";
+  std::string message = "Hello, Anita!";
   // Hello, world! encryptted is equal to this with encryption strength set to 15 and keySeed at 45
-  std::string messageToDecrypt = "mkmatkv`mtlhhaqwwrqdrmv`x^kbal}ge{g}t^ydylis`rzvo`^lzaqnzmlyom^|sxwz|{yy~b{jhxsayc^zgaedbzjm|`azims`lxjpiwqkhcrwucg}}`gzcbnuadvyfof^gietctaklot}~p|rt{h^ijuipnnunmyn|cbedvrxul~cwjg^rskdwebkwjgp_n^";
+  std::string messageToDecrypt = "kfvyfs^wpho{aak^bvznztpkrpwfpod__rxtzs~zvfqkgbdo_vqopirv{biczw_le ";
   
   
   // Encryption
@@ -61,6 +61,8 @@ std::string encryptMessage(std::string t_message, int t_unlockKey)
     // create a tempory empty string that we will populate with the translated data
     std::string encryptedMessage = "";
     
+    // We allocate the memory for the encryption characters
+    encryptedMessage.reserve(t_message.length() * ENCRYPTION_STRENGTH);
     
     for(unsigned int i = 0; i < t_message.size(); i++)
     {
