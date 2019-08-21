@@ -1,9 +1,10 @@
-// EZ Encryption v0.2 Program for encypting string messages
-// By Paul O'Callaghan
-// Began 19/8/19
-// Updated 20/8/19
-// Known Issues: Fixed last issue of repeated patterns. Could still be brute forced if the pattern is known but less likely now.
-// Known Bugs: NA as i can tell yet
+/// EZ Encryption v0.2 Program for encypting string messages
+/// By Paul O'Callaghan
+/// Began 19/8/19
+/// Updated 20/8/19
+/// Known Issues: Fixed last issue of repeated patterns. Could still be brute forced if the pattern is known but less likely now.
+/// Another issue is if we were to overflow the string the message would not produce the characters to get all of the message
+/// Known Bugs: NA as i can tell yet
 
 #include <iostream>
 #include <string>
